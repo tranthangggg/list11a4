@@ -32,7 +32,6 @@
         .btn-delete { background-color: #dc3545; font-size: 12px; padding: 5px 8px; }
         .btn-excel { background-color: #198754; }
 
-        /* CSS CHO PHẦN LOG & TÀI KHOẢN */
         .log-section { background: white; border: 1px solid #ddd; border-radius: 6px; overflow: hidden; }
         .log-header { background: #6610f2; color: white; display: grid; grid-template-columns: 120px 150px 1fr; font-weight: bold; padding: 10px; font-size: 12px; text-transform: uppercase; }
         .log-body { max-height: 250px; overflow-y: auto; }
@@ -175,11 +174,9 @@
 </div>
 
 <script type="module">
-    // 1. IMPORT FIREBASE
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // 2. CẤU HÌNH (Dự án list11a4-881e5)
     const firebaseConfig = {
         apiKey: "AIzaSyDLkLYuOMgohtOrY6bgCGMVgXtX1gxyhjU",
         authDomain: "list11a4-881e5.firebaseapp.com",
@@ -190,12 +187,10 @@
         measurementId: "G-W1RV28264K"
     };
 
-    // Khởi tạo
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const COLLECTION_NAME = "hocsinh_11a4";
 
-    // BIẾN TOÀN CỤC & LOCALSTORAGE
     const KEY_ACCOUNTS = "DS_TK_11A4";
     const KEY_LOGS = "LOG_11A4";
 
@@ -205,7 +200,6 @@
     let danhSachTaiKhoan = JSON.parse(localStorage.getItem(KEY_ACCOUNTS)) || [];
     let danhSachLog = JSON.parse(localStorage.getItem(KEY_LOGS)) || [];
 
-    // 3. LOGIC FIREBASE (HỌC SINH)
     onSnapshot(collection(db, COLLECTION_NAME), (snapshot) => {
         danhSachHocSinh = [];
         snapshot.forEach((doc) => {
@@ -217,9 +211,7 @@
         window.hienThiHocSinh();
     });
 
-    // --- CÁC HÀM XỬ LÝ ---
 
-    // 4. LOGIC NHẬT KÝ (LOGS - GIỮ NGUYÊN LOCAL)
     window.ghiLog = function(action) {
         let now = new Date();
         let timeStr = now.getHours() + ":" + (now.getMinutes()<10?'0':'') + now.getMinutes() + " " + now.getDate() + "/" + (now.getMonth()+1);
@@ -244,7 +236,6 @@
         }
     }
 
-    // 5. LOGIC TÀI KHOẢN PHỤ (GIỮ NGUYÊN LOCAL)
     window.themTaiKhoan = function() {
         let u = document.getElementById("newUsername").value;
         let p = document.getElementById("newPassword").value;
@@ -276,7 +267,6 @@
         }
     }
 
-    // 6. LOGIC HỌC SINH (KẾT HỢP FIREBASE + GHI LOG)
     window.hienThiHocSinh = function(data = danhSachHocSinh) {
         let tbody = document.getElementById("thanBang");
         let html = '';
@@ -351,7 +341,6 @@
         } catch(e) { alert("Lỗi: " + e.message); }
     }
 
-    // 7. HỆ THỐNG
     window.xuLyDangNhap = function() {
         let u = document.getElementById("loginUser").value;
         let p = document.getElementById("loginPass").value;
@@ -377,11 +366,9 @@
         let isSuper = (currentRole === 'super_admin');
         let isAdmin = (isSuper || currentRole === 'admin');
 
-        // Hiện/Ẩn Panel
         document.getElementById("superAdminPanel").style.display = isSuper ? 'block' : 'none';
         document.getElementById("adminArea").style.display = isAdmin ? 'block' : 'none';
         
-        // Nút Auth
         if(currentRole !== 'guest') {
             document.getElementById("btnAuth").style.display = "none";
             document.getElementById("btnLogout").style.display = "inline-block";
@@ -438,8 +425,8 @@
     window.dongFormDangNhap = () => document.getElementById("loginModal").style.display = "none";
     window.dongFormSua = () => document.getElementById("editModal").style.display = "none";
 
-    // CHẠY LẦN ĐẦU
     window.capNhatGiaoDien();
 </script>
 </body>
+
 </html>
